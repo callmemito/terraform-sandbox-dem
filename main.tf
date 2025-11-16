@@ -154,3 +154,20 @@ resource "aws_vpc_endpoint" "s3" {
     Name = "test-network-vpce-s3"
   }
 }
+
+# Public Subnet 3 (ap-northeast-1d)
+resource "aws_subnet" "public_3" {
+  vpc_id                  = aws_vpc.test_network.id
+  cidr_block              = "10.0.32.0/20"
+  availability_zone       = "ap-northeast-1d"
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "test-network-subnet-public3-ap-northeast-1d"
+  }
+}
+
+resource "aws_route_table_association" "public_3" {
+  subnet_id      = aws_subnet.public_3.id
+  route_table_id = aws_route_table.public.id
+}
